@@ -15,7 +15,7 @@ class TransactionsController < OpenReadController
 
   # POST /transactions
   def create
-    @transaction = current_user.transactions.build(asset_params)
+    @transaction = current_user.transactions.build(transaction_params)
 
     if @transaction.save
       render json: @transaction, status: :created, location: @transaction
