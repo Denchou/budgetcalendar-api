@@ -1,4 +1,4 @@
-class AssetsController < ApplicationController
+class AssetsController < OpenReadController
   before_action :set_asset, only: [:show, :update, :destroy]
 
   # GET /assets
@@ -10,12 +10,12 @@ class AssetsController < ApplicationController
 
   # GET /assets/1
   def show
-    render json: @asset
+    render json: Asset.find(params[:id])
   end
 
   # POST /assets
   def create
-    @asset = Asset.new(asset_params)
+    @asset = current_user.assets.build(asset_params)
 
     if @asset.save
       render json: @asset, status: :created, location: @asset
@@ -41,7 +41,7 @@ class AssetsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_asset
-      @asset = Asset.find(params[:id])
+      @asset = current_user.assets.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
